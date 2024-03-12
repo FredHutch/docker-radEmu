@@ -1,4 +1,4 @@
-FROM quay.io/fhcrc-microbiome/corncob:84c8354
+FROM ubuntu:20.04
 MAINTAINER sminot@fredhutch.org
 
 ENV DEBIAN_FRONTEND noninteractive

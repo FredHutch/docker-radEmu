@@ -30,4 +30,4 @@ RUN R -e "install.packages('igraph', dependencies=TRUE); library(igraph)"
 RUN R -e "install.packages('BiocManager'); BiocManager::install('phyloseq'); library(phyloseq)"
 
 # Install radEmu
-RUN R -e "library(devtools); devtools::install_github('statdivlab/radEmu'); library(radEmu)"
+RUN R -e "library(devtools); devtools::install_github('statdivlab/radEmu@2f79e2c448d06b8e32757c37c765188db020ba5f'); library(radEmu)"

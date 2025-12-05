@@ -1,18 +1,5 @@
-FROM ubuntu:20.04
-MAINTAINER sminot@fredhutch.org
-
-ENV DEBIAN_FRONTEND noninteractive
-
-# Install prerequisites and R
-RUN apt update && \
-    apt-get -y install --no-install-recommends --no-install-suggests \
-    ca-certificates software-properties-common gnupg2 gnupg1 && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
-    add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' && \
-    ln -fs /usr/share/zoneinfo/Europe/Dublin /etc/localtime && \
-    apt-get install -y build-essential wget unzip r-base libssl-dev \
-    libxml2-dev libcurl4-openssl-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev \
-    libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libglpk-dev
+FROM rocker/tidyverse:4.5.2
+LABEL MAINTAINER="sminot@fredhutch.org"
 
 # Install devtools
 RUN R -e "install.packages('curl', repos = 'http://cran.us.r-project.org'); library(curl)"
@@ -26,8 +13,10 @@ RUN R -e "install.packages('vroom', repos = 'http://cran.us.r-project.org'); lib
 RUN R -e "install.packages('VGAM', repos = 'http://cran.us.r-project.org'); library(VGAM)"
 
 # Install phyloseq
+RUN apt update
+RUN apt-get install -y libglpk-dev
 RUN R -e "install.packages('igraph', dependencies=TRUE); library(igraph)"
 RUN R -e "install.packages('BiocManager'); BiocManager::install('phyloseq'); library(phyloseq)"
 
 # Install radEmu
-RUN R -e "library(devtools); devtools::install_github('statdivlab/radEmu@2f79e2c448d06b8e32757c37c765188db020ba5f'); library(radEmu)"
+RUN R -e "library(devtools); devtools::install_github('statdivlab/radEmu@b0f8b76f25181f3cb2df0616d5d23c23f58501d2'); library(radEmu)"
